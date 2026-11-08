@@ -7,9 +7,10 @@ tools, release metadata, and test reports.
 
 ## Available releases
 
-| Release | Bundle |
-| --- | --- |
-| `alpha_rc0` | [`swiftfabric-alpha_rc0.tar.gz`](./swiftfabric-alpha_rc0.tar.gz) |
+| Release | Bundle | Supported upgrade from |
+| --- | --- | --- |
+| `alpha_rc1` | [`swiftfabric-alpha_rc1.tar.gz`](./alpha/swiftfabric-alpha_rc1.tar.gz) | `alpha_rc0` |
+| `alpha_rc0` | [`swiftfabric-alpha_rc0.tar.gz`](./alpha/swiftfabric-alpha_rc0.tar.gz) | None declared |
 
 Each bundle has a matching `.sha256` file. See the bundle's `RELEASE-NOTES.md`
 and `RELEASE.json` for its source revisions, package versions, test results,
@@ -17,13 +18,13 @@ requirements, and upgrade policy.
 
 ## Verify and unpack
 
-From a checkout of this repository, verify the downloaded archive before
-extracting it:
+From this directory, verify the latest release archive before extracting it:
 
 ```sh
-sha256sum --check swiftfabric-alpha_rc0.tar.gz.sha256
-tar -xzf swiftfabric-alpha_rc0.tar.gz
-cd swiftfabric-alpha_rc0
+cd alpha
+sha256sum --check swiftfabric-alpha_rc1.tar.gz.sha256
+tar -xzf swiftfabric-alpha_rc1.tar.gz
+cd swiftfabric-alpha_rc1
 sha256sum --check SHA256SUMS
 ```
 
@@ -47,7 +48,22 @@ Protect `config.json` and any credentials it contains; do not publish them.
 
 ## Upgrades
 
-Treat upgrades between releases as potentially breaking until a supported
-starting release is declared in that release's metadata and notes. Read those
-notes before using `upgrade.sh`. A breaking change may require destroying and
-recreating the deployment; that loses controller state.
+`alpha_rc1` supports upgrading an existing `alpha_rc0` deployment. This path
+passed upgrade acceptance and ordered cleanup; the bundle includes before- and
+after-upgrade reports. No other starting release is declared as supported.
+
+From the verified, extracted `alpha_rc1` bundle, use the original deployment
+configuration and securely enter the current cluster bearer token:
+
+```sh
+./upgrade.sh --config /path/to/original/config.json --token
+```
+
+This upgrades controller packages while preserving controller state. Compute
+hosts and North/South router agents require separate user-initiated upgrades,
+unless `--auto-agent-upgrade` is supplied. Review the bundled `RELEASE-NOTES.md`,
+`RELEASE.json`, and `BUILDING.md` before upgrading.
+
+Treat other upgrade paths as potentially breaking until explicitly declared
+supported. A breaking change may require destroying and recreating the
+deployment; that loses controller state.
