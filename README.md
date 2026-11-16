@@ -9,6 +9,7 @@ tools, release metadata, and test reports.
 
 | Release | Bundle | Supported upgrade from |
 | --- | --- | --- |
+| `alpha_rc2` | [`swiftfabric-alpha_rc2.tar.gz`](./swiftfabric-alpha_rc2.tar.gz) | `alpha_rc1` |
 | `alpha_rc1` | [`swiftfabric-alpha_rc1.tar.gz`](./alpha/swiftfabric-alpha_rc1.tar.gz) | `alpha_rc0` |
 | `alpha_rc0` | [`swiftfabric-alpha_rc0.tar.gz`](./alpha/swiftfabric-alpha_rc0.tar.gz) | None declared |
 
@@ -21,10 +22,9 @@ requirements, and upgrade policy.
 From this directory, verify the latest release archive before extracting it:
 
 ```sh
-cd alpha
-sha256sum --check swiftfabric-alpha_rc1.tar.gz.sha256
-tar -xzf swiftfabric-alpha_rc1.tar.gz
-cd swiftfabric-alpha_rc1
+sha256sum --check swiftfabric-alpha_rc2.tar.gz.sha256
+tar -xzf swiftfabric-alpha_rc2.tar.gz
+cd swiftfabric-alpha_rc2
 sha256sum --check SHA256SUMS
 ```
 
@@ -48,11 +48,12 @@ Protect `config.json` and any credentials it contains; do not publish them.
 
 ## Upgrades
 
-`alpha_rc1` supports upgrading an existing `alpha_rc0` deployment. This path
+`alpha_rc2` supports upgrading an existing `alpha_rc1` deployment. This path
 passed upgrade acceptance and ordered cleanup; the bundle includes before- and
-after-upgrade reports. No other starting release is declared as supported.
+after-upgrade reports. The previous `alpha_rc1` release supports upgrading
+from `alpha_rc0`. No other starting release is declared as supported.
 
-From the verified, extracted `alpha_rc1` bundle, use the original deployment
+From the verified, extracted `alpha_rc2` bundle, use the original deployment
 configuration and securely enter the current cluster bearer token:
 
 ```sh
